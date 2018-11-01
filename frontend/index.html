@@ -24,17 +24,27 @@
 
       function initMap() {
         var myLatLng = {lat: -25.363, lng: 131.044};
+        var eug = {lat: 44.0520691, lng: -123.0867536};
+
+        var infowindow = new google.maps.InfoWindow;
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: myLatLng
+          zoom: 15,
+          center: eug
         });
 
         var marker = new google.maps.Marker({
           position: myLatLng,
           map: map,
           title: 'Hello World!'
+          info: 'The party in Eugene'
         });
+
+        marker.addListener('click', function() {
+            infowindow.setContent(this.info);
+            infowindow.open(map, this);
+            
+          }
       }
     </script>
     <script async defer
