@@ -1,0 +1,28 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0B0C10;
+}
+
+div#bodyContainer {
+    padding: 1%;
+}
+
+nav.navbar {
+    color: white !important;
+}
+
+a.navbar-brand {
+    color: #66FCF1 !important;
+    font-size: x-large;
+}
+
+div#createHeader {
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    color: white;
+}
+
+div#createHeader i {
+    color: #66FCF1;
+}

@@ -1,0 +1,7 @@
+INFO:root:2018-11-01 13:38:45.203809: SQL Parser session initialized
+ERROR:root:2018-11-01 13:38:45.204039: SQL Parser session initialized
+ERROR:root:2018-11-01 13:38:55.212626: Connection to database failed: timeout expired
+.
+INFO:root:2018-11-01 13:42:46.953442: SQL Parser session initialized
+ERROR:root:2018-11-01 13:42:46.953740: SQL Parser session initialized
+INFO:root:2018-11-01 13:42:47.284828: Established database connection
