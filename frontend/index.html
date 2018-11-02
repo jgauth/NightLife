@@ -34,10 +34,10 @@
         });
 
         var marker = new google.maps.Marker({
-          position: myLatLng,
+          position: eug,
           map: map,
-          title: 'Hello World!'
-          info: 'The party in Eugene'
+          title: 'Hello World!',
+          info: "The party in Eugene is here"
         });
 
         marker.addListener('click', function() {
@@ -45,6 +45,7 @@
             infowindow.open(map, this);
             
          });
+
 
       }
     </script>
