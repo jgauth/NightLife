@@ -25,6 +25,7 @@
       function initMap() {
         var myLatLng = {lat: -25.363, lng: 131.044};
         var eug = {lat: 44.0520691, lng: -123.0867536};
+        var eug2 = {lat: 44.04, lng: -123.07};
 
         var infowindow = new google.maps.InfoWindow;
 
@@ -37,10 +38,23 @@
           position: eug,
           map: map,
           title: 'Hello World!',
-          info: "The party in Eugene is here"
+          info: "This is Eugene Party Central"
+        });
+
+        var marker2 = new google.maps.Marker({
+          position: eug2,
+          map: map,
+          title: 'Underground',
+          info: "The underground party is here"
         });
 
         marker.addListener('click', function() {
+            infowindow.setContent(this.info);
+            infowindow.open(map, this);
+            
+         });
+
+        marker2.addListener('click', function() {
             infowindow.setContent(this.info);
             infowindow.open(map, this);
             
