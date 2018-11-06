@@ -26,6 +26,8 @@
         var myLatLng = {lat: -25.363, lng: 131.044};
         var eug = {lat: 44.0520691, lng: -123.0867536};
         var eug2 = {lat: 44.04, lng: -123.07};
+        var eug3 = {lat: 44.045, lng: -123.075};
+        var eug4 = {lat: 44.047520691, lng: -123.0667536};
 
         var infowindow = new google.maps.InfoWindow;
 
@@ -117,19 +119,51 @@
           //End Night Mode Styling Test
         });
 
+        //For changing marker appearance, just a test for now
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+
         var marker = new google.maps.Marker({
           position: eug,
           map: map,
           title: 'Hello World!',
-          info: "This is Eugene Party Central"
+          info: "This is Eugene Party Central",
+          //testing different marker appearance, in this case what google calls a "bar" marker, might be relevant for this project
+          icon: iconBase + 'bars.png'
+
         });
 
+
+        //need to clean up with a loop or array so I don't have to do all of this for each marker
         var marker2 = new google.maps.Marker({
           position: eug2,
           map: map,
           title: 'Underground',
-          info: "The underground party is here"
+          info: "The underground party is here",
+
+          
         });
+
+        var marker3 = new google.maps.Marker({
+          position: eug3,
+          map: map,
+          //this is a joke for proof of concept
+          title: 'Weed',
+          info: "Weed Party 420",
+          icon: iconBase + 'campfire.png'
+
+          
+        });
+
+        var marker4 = new google.maps.Marker({
+          position: eug4,
+          map: map,
+          title: 'Lit',
+          info: "The Lit Party is here",
+          icon: iconBase + 'volcano.png'
+
+          
+        });
+
 
         marker.addListener('click', function() {
             infowindow.setContent(this.info);
@@ -138,6 +172,18 @@
          });
 
         marker2.addListener('click', function() {
+            infowindow.setContent(this.info);
+            infowindow.open(map, this);
+            
+         });
+
+        marker3.addListener('click', function() {
+            infowindow.setContent(this.info);
+            infowindow.open(map, this);
+            
+         });
+
+        marker4.addListener('click', function() {
             infowindow.setContent(this.info);
             infowindow.open(map, this);
             
