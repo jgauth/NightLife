@@ -1,5 +1,5 @@
-psycopg2
-boto3
+psycopg2-binary
 flask
 flask-migrate
 geoalchemy2
+requests

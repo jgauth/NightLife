@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: john
     volumes:
       - ./data:/var/lib/postgresql/data
+    ports:
+        - "5432:5432"
   nginx:
     build:
       context: .
