@@ -54,13 +54,7 @@ def healthcheck():
 
 @app.route("/api/event/create", methods=['POST','PUT'])
 def create_event():
-#{
-#  'event_name': 'testEvent',
-#  'event_location': {
-#    'lat' : 9.6754,
-#    'long' : 23.43453
-#  }
-#}
+
     eprint("method: " + request.method)
     eprint("endpoint: " + request.endpoint)
     if request.method == 'POST' or request.method == 'PUT':
