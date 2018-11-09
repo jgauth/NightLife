@@ -11,6 +11,13 @@ def noWhiteSpace():
         
     return _noWhiteSpace
 
+def startsWithLetter():
+    message = 'Must start with a letter.'
+
+    def _startsWithLetter(form, field):
+        s = field.data
+    if (not isinstance(s, str) or not s[0].isalpha())
+
 
 class NewEventForm(Form):
     name = StringField('Name', [validators.Length(max=255), validators.InputRequired()])
