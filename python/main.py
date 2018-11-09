@@ -2,6 +2,7 @@ import json, os, requests
 from utils import *
 from flask import Flask, request, redirect, url_for, flash, abort, jsonify
 from models import db, Event
+from forms import NewEventForm, TestForm
 # from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -55,11 +56,29 @@ def healthcheck():
 @app.route("/api/event/create", methods=['POST','PUT'])
 def create_event():
 
-    eprint("method: " + request.method)
-    eprint("endpoint: " + request.endpoint)
-    if request.method == 'POST' or request.method == 'PUT':
-        eprint(request.form['name'])
+    form = TestForm(request.form)
 
-    response = jsonify({ 'message': 'upload success' })
-    response.status_code = 200
-    return response
+    eprint("method: " + request.method)
+    if request.method == 'POST' or request.method == 'PUT':
+        if form.validate(): # WTForm validation
+            eprint(request.form['name'])
+            eprint(request.form['address'])
+
+            #handle db here
+            ############# ffffffffinish this
+            name = request.form['name']
+            address = request.form['address']
+            loc_data = geocode(address)
+            lat = loc_data[0]
+            long = loc_data[1]
+            new_event = Event(name=name, geo='POINT({} {})'.format(lat, long), lat=lat, long=long, address=address)
+
+            db.session.add(new_event)
+            db.session.commit()
+
+            response = jsonify({ 'message': 'validation/upload success' })
+            response.status_code = 200
+        else:
+            response = jsonify({'message': 'validation failed'})
+            response.status_code = 400
+        return response
