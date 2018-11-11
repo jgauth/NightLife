@@ -10,8 +10,17 @@
 
 <body>
 <form action="/api/event/create" method="POST">
-    Event Name: <input type="text" name="name"><br>
-    Event Address: <input type="text" name="address"><br>
+    Event Name: <input type="text" name="name" required><br>
+    Event Host: <input type="text" name="host" required><br>
+    Event Theme: <input type="text" name="theme"><br>
+    Event Description: <input type="text" name="description" required><br>
+    Start time: <input type="datetime-local" name="time_start" required><br>
+    End time: <input type="datetime-local" name="time_end" required><br>
+    Adress: <br>
+    Street: <input type="text" name="street" required><br>
+    City: <input type="text" name="city" value="Eugene" required><br>
+    State: <input type="text" name="state" value="OR" required><br>
+    Zip: <input type="number" name="zip" required><br>
     <input type="submit" value="Submit">
 </form>
 </body>
