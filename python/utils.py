@@ -56,3 +56,17 @@ def generate_test_events(n):
         e = Event(name=name, geo=geo, lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
         event_list.append(e)
     return event_list
+
+def event_to_dict(e):
+    item = {}
+    item['id'] = e.id
+    item['name'] = e.name
+    item['lat'] = e.lat
+    item['lng'] = e.lng
+    item['address'] = e.address
+    item['host'] = e.host
+    item['theme'] = e.theme
+    item['description'] = e.description
+    item['time_start'] = e.time_start
+    item['time_end'] = e.time_end
+    return item

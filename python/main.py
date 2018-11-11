@@ -23,7 +23,19 @@ db.init_app(app)
 def healthcheck():
     return jsonify({ 'data': 'sup' })
 
-@app.route("/api/event/gen_events/<int:n>")
+@app.route("/api/reset_db", methods=['GET'])
+def reset_db():
+    try:
+        db.drop_all()
+        db.create_all()
+        response = jsonify({ 'message': 'Successfully reset db' })
+        response.status_code = 200
+    except:
+        response = jsonify({ 'message': 'Reset db failed check output' })
+        response.status_code = 400
+    return response
+
+@app.route("/api/event/gen_events/<int:n>", methods=['GET'])
 def gen_events(n):
     event_list = generate_test_events(n)
     for e in event_list:
@@ -33,24 +45,27 @@ def gen_events(n):
     response.status_code = 200
     return response
 
+@app.route("/api/event/<int:id>", methods=['GET'])
+def get_event(id):
+    event = Event.query.get(id)
+    if event is None:
+        response = jsonify({'message': 'invalid event ID'})
+        response.status_code = 400
+        return response
 
-@app.route("/api/event/get_all", methods=['GET'])
+    event_dict = event_to_dict(event)
+    response = jsonify(event_dict)
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/event/all", methods=['GET'])
 def get_all():
     all_events = Event.query.all()
     json_list = []
     for row in all_events:
-        item = {}
-        item['id'] = row.id
-        item['name'] = row.name
-        item['lat'] = row.lat
-        item['lng'] = row.lng
-        item['address'] = row.address
-        item['host'] = row.host
-        item['theme'] = row.theme
-        item['description'] = row.description
-        item['time_start'] = row.time_start
-        item['time_end'] = row.time_end
-        json_list.append(item)
+        event_dict = event_to_dict(row)
+        json_list.append(event_dict)
     response = jsonify({'events':json_list})
     response.status_code = 200
     return response
@@ -72,7 +87,7 @@ def create_event():
         eprint(address)
         geo_tuple = geocode(address)
         eprint(geo_tuple)
-        if form.validate(): # WTForm validation
+        if form.validate(): # WTForm validation, needs to be set up properly in forms.py`
             
             # eprint(request.form['address'])
 
