@@ -16,15 +16,18 @@ def startsWithLetter():
 
     def _startsWithLetter(form, field):
         s = field.data
-    if (not isinstance(s, str) or not s[0].isalpha())
+    if (not isinstance(s, str) or not s[0].isalpha()):
+        raise validators.ValidationError(message)
+    
+    return _startsWithLetter
 
 
 class NewEventForm(Form):
-    name = StringField('Name', [validators.Length(max=255), validators.InputRequired()])
-    address = StringField('Address', [validators.Length(max=255), validators.InputRequired()])
-    host = StringField('Host', [validators.Length(max=255), validators.InputRequired()])
-    theme = StringField('Theme', [validators.Length(max=255)])
-    description = StringField('Description', [validators.Length(max=255)])
+    name = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    address = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    host = StringField('Host', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    theme = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
+    description = StringField('Description', [validators.Length(max=255), noWhiteSpace()])
     time_start = StringField('Start Time', [validators.Length(max=255), validators.InputRequired()])
     time_end = StringField('End Time', [validators.Length(max=255), validators.InputRequired()])
 

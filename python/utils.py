@@ -1,4 +1,9 @@
-import sys
+import sys, requests
+from models import Event
+from random import uniform, randint
+from datetime import datetime
+
+GMAPS_KEY = "AIzaSyDK0VvGmW9rc1y-oX6APE7Rc3wQnoRUI58"
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -30,3 +35,24 @@ def geocode(address):
         # requests error
         # do something
         pass
+
+def generate_test_events(n):
+    """Generate a list of length n of Event objects"""
+    letters = "ABCDEF"
+    event_list = []
+    for i in range(n):
+        name = "Event #{}".format(i)
+        host = "Host #{}".format(i)
+        theme = letters[i % 6]
+        lat = uniform(43.9887109, 44.13261989999999)
+        lng = uniform(-123.208402, -123.036699)
+        geo = 'POINT({} {})'.format(lat, lng)
+        address = "Test 123 Lane, Eugene OR 99999"
+        description = "Test description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"
+        # time_start = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
+        # time_end = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
+        time_start = datetime.now()
+        time_end = datetime.now()
+        e = Event(name=name, geo=geo, lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
+        event_list.append(e)
+    return event_list
