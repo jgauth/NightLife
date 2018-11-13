@@ -1,0 +1,50 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0B0C10;
+}
+
+nav.navbar {
+    color: white !important;
+    z-index: 2;
+}
+
+div#map {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+a.navbar-brand {
+    color: #66FCF1 !important;
+    font-size: x-large;
+}
+
+div#createHeader {
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    color: white;
+}
+
+div#createHeader i {
+    color: #66FCF1;
+}
+
+div#entryForm {
+    color: white;
+    margin: 2%;
+}
+
+div#entryForm h1 {
+    color: #66FCF1;
+}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
+.autocomplete-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #f0f0f0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }
