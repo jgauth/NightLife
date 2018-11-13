@@ -37,11 +37,22 @@ div#createHeader i {
 
 div#entryForm {
     color: white;
-    margin: 2%;
+    margin: 5%;
+    align-content: center;
+    text-align: center;
 }
 
 div#entryForm h1 {
     color: #66FCF1;
+    font-weight: bold;
+}
+
+div#entryForm hr {
+    border-top: 1px solid #66FCF1;
+}
+
+label {
+    font-weight: bold;
 }
 
 .autocomplete-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }

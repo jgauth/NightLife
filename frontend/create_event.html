@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"><i class="far fa-moon"></i><b> NightLife</b></a>
+        <a class="navbar-brand" href="/"><i class="far fa-moon"></i><b> NightLife</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -38,31 +38,108 @@
     </nav>
 
 <div id="entryForm">
-    <h1>Create an Event</h1>
+    <h1>Create an Event <i class="fas fa-thumbtack"></i></h1>
+    <hr>
     <form action="/api/event/create" method="POST">
-    Event Name: <input type="text" name="name" required><br>
-    Event Host: <input id="hostName" type="text" name="host" required><br>
-    Event Theme: <input type="text" name="theme"><br>
-    Event Description: <input type="text" name="description" required><br>
-    Start time: <input type="datetime-local" name="time_start" required><br>
-    End time: <input type="datetime-local" name="time_end" required><br>
-    Adress: <br>
-    Street: <input type="text" name="street" required><br>
-    City: <input type="text" name="city" value="Eugene" required><br>
-    State: <input type="text" name="state" value="OR" required><br>
-    Zip: <input type="number" name="zip" required><br>
-    <input type="submit" value="Submit">
+        <div class="form-group row">
+            <label for="eventNameInput" class="col-2 col-form-label">Event Name:</label>
+            <div class="col-10"><input class="form-control" type="text" placeholder='i.e. "Animal House Party"' id="eventNameInput" name="eventNameInput"></div>
+        </div>
+        <div class="form-group row">
+            <label for="eventHostInput" class="col-2 col-form-label">Event Host:</label>
+            <div class="col-10"><input class="form-control" type="text" placeholder='e.g. "Sigma Nu" or "WiCS"' id="eventHostInput" name="eventHostInput"></div>
+        </div>
+        <div class="form-group row">
+            <label for="eventDescriptionInput">Description:</label>
+            <textarea class="form-control" name="eventDescriptionInput" id="eventDescriptionInput" rows="3"></textarea>
+        </div>
+        <div class="form-group row">
+            <label for="eventStartTimeEntry" class="col-2 col-form-label">Start Time:</label>
+            <div class="col-10"><input class="form-control" type="datetime-local" value="2018-11-20T21:00:00" id="eventStartTimeEntry" name="eventStartTimeEntry"></div>
+        </div>
+        <div class="form-group row">
+            <label for="eventEndTimeEntry" class="col-2 col-form-label">End Time:</label>
+            <div class="col-10"><input class="form-control" type="datetime-local" value="2018-11-20T23:00:00" id="eventEndTimeEntry" name="eventEndTimeEntry"></div>
+        </div>
+        <div class="form-group row">
+            <label for="eventAddressInput" class="col-2 col-form-label">Address:</label>
+            <div class="col-10"><input class="form-control" type="text" id="eventAddressInput" name="eventAddressInput"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="eventCityInput">City</label>
+                <input type="text" class="form-control" id="eventCityInput" value="Eugene" name="eventCityInput">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="eventStateInput">State</label>
+                <select id="eventStateInput" name="eventStateInput" class="form-control">
+                    <option>Alabama</option>
+                    <option>Alaska</option>
+                    <option>Arizona</option>
+                    <option>Arkansas</option>
+                    <option>California</option>
+                    <option>Colorado</option>
+                    <option>Connecticut</option>
+                    <option>Delaware</option>
+                    <option>Florida</option>
+                    <option>Georgia</option>
+                    <option>Hawaii</option>
+                    <option>Idaho</option>
+                    <option>Illinois</option>
+                    <option>Indiana</option>
+                    <option>Iowa</option>
+                    <option>Kansas</option>
+                    <option>Kentucky</option>
+                    <option>Louisiana</option>
+                    <option>Maine</option>
+                    <option>Maryland</option>
+                    <option>Massachusetts</option>
+                    <option>Michigan</option>
+                    <option>Minnesota</option>
+                    <option>Mississippi</option>
+                    <option>Missouri</option>
+                    <option>Montana</option>
+                    <option>Nebraska</option>
+                    <option>Nevada</option>
+                    <option>New Hampshire</option>
+                    <option>New Jersey</option>
+                    <option>New Mexico</option>
+                    <option>New York</option>
+                    <option>North Carolina</option>
+                    <option>North Dakota</option>
+                    <option>Ohio</option>
+                    <option>Oklahoma</option>
+                    <option selected>Oregon</option>
+                    <option>Pennsylvania</option>
+                    <option>Rhode Island</option>
+                    <option>South Carolina</option>
+                    <option>South Dakota</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Utah</option>
+                    <option>Vermont</option>
+                    <option>Virginia</option>
+                    <option>Washington</option>
+                    <option>West Virginia</option>
+                    <option>Wisconsin</option>
+                    <option>Wyoming</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="eventZipInput">Zip</label>
+                <input type="text" class="form-control" id="eventZipInput" name="eventZipInput">
+            </div>
+        </div>
+        <input class="form-control btn-dark" type="submit" value="Submit">
     </form>  
 </div>
 
 
 
-<!--/* Bootstrap, Jquery, Moment and DateRangePicker (for calendar), Custom JS */-->
+<!--/* Bootstrap, Jquery, Custom JS */-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="js/entry.js" type="text/javascript"></script>
 </body>
 
