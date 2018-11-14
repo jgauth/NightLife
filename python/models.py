@@ -15,3 +15,9 @@ class Event(db.Model):
     description = db.Column(db.String(255)) #Event description
     time_start = db.Column(db.DateTime)     #Event start time
     time_end = db.Column(db.DateTime)       #Event end time
+    reviews = db.relationship('Review', backref='event', lazy=True)
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    party_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    rating = db.Column(db.Float)
