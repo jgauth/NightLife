@@ -1,7 +1,7 @@
 import json, os
 from utils import *
 from flask import Flask, request, redirect, url_for, flash, abort, jsonify
-from models import db, Event
+from models import db, Event, Review
 from forms import NewEventForm, TestForm
 # from flask_migrate import Migrate
 
@@ -17,6 +17,10 @@ app.secret_key = b'\xc48\xd3!w\xf8U\x06\xc9([\xac\xd9\xfe\xbaj'
 
 db.app = app
 db.init_app(app)
+
+def get_rating(party_id):
+    result = db.session.query(db.func.avg(Review.rating).label('average')).filter(Review.party_id==party_id)
+    return result[0][0]
 
 
 @app.route("/api/healthcheck", methods=['GET'])
@@ -54,6 +58,7 @@ def get_event(id):
         return response
 
     event_dict = event_to_dict(event)
+    event_dict['rating'] = get_rating(id)
     response = jsonify(event_dict)
     response.status_code = 200
     return response
@@ -65,6 +70,7 @@ def get_all():
     json_list = []
     for row in all_events:
         event_dict = event_to_dict(row)
+        event_dict['rating'] = get_rating(row.id)
         json_list.append(event_dict)
     response = jsonify({'events':json_list})
     response.status_code = 200
@@ -113,3 +119,16 @@ def create_event():
             response = jsonify({'validation failed': form.errors})
             response.status_code = 400
         return response
+
+@app.route("/api/event/add_rating", methods=['GET'])
+def add_rating():
+    id = request.args.get('id')
+    rating = request.args.get('rating')
+
+    r1 = Review(party_id=id, rating=rating)
+    db.session.add(r1)
+    db.session.commit()
+
+    response = jsonify({ 'message': 'rating upload success' })
+    response.status_code = 200
+    return response
