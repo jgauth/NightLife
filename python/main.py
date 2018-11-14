@@ -77,37 +77,34 @@ def create_event():
 
     if request.method == 'POST' or request.method == 'PUT':
 
-        eprint("Request.form: ")
-        eprint(request.form)
-
-        # name = request.form['name']
-        # host = request.form['host']
-        # theme = request.form['theme']
-        # description = request.form['description']
-        # time_start = request.form['time_start']
-        # time_end = request.form['time_end']
-        # street = request.form['street']
-        # city = request.form['city']
-        # state = request.form['state']
-        # zip = request.form['zip']
-
-        # address = "{}, {}, {} {}".format(street, city, state, zip)
-        # eprint("POST address: " + address)
-        # geo_tuple = geocode(address)
-        # eprint(geo_tuple)
-
         if form.validate(): # WTForm validation
-            
+
             eprint("Form successfully validated")
 
-            #handle db here
-            ############# ffffffffinish this
-            # lat = geo_tuple[0]
-            # lng = geo_tuple[1]
-            # new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address)
+            name = form.eventNameInput.data
+            host = form.eventHostInput.data
+            # theme = form.data.eventThemeInput
+            description = form.eventDescriptionInput.data
+            time_start = form.eventStartTimeEntry.data
+            time_end = form.eventEndTimeEntry.data
+            street = form.eventAddressInput.data
+            city = form.eventCityInput.data
+            state = form.eventStateInput.data
+            zip = form.eventZipInput.data
+            
+            address = "{}, {}, {} {}".format(street, city, state, zip)
+            eprint("POST address: " + address)
+            geo_tuple = geocode(address)
+            eprint(geo_tuple)
+            
 
-            # db.session.add(new_event)
-            # db.session.commit()
+            #handle db here
+            lat = geo_tuple[0]
+            lng = geo_tuple[1]
+            new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address, host=host, description=description, time_start=time_start, time_end=time_end)
+
+            db.session.add(new_event)
+            db.session.commit()
 
             response = jsonify({ 'message': 'validation/upload success' })
             response.status_code = 200
