@@ -23,20 +23,17 @@ def startsWithLetter():
 
 
 class NewEventForm(Form):  # YYYY:MM:DD:HH:MM:SS #  %Y:%m:%d:%H:%M:%S
-    name = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    host = StringField('Host', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    theme = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
-    description = StringField('Description', [validators.Length(max=255), noWhiteSpace()])
-    # time_start = StringField('Start Time', [validators.Length(max=255), validators.InputRequired()])
-    # time_end = StringField('End Time', [validators.Length(max=255), validators.InputRequired()])
-    time_start = DateTimeField('Start Time', [validators.Length(max=255), validators.InputRequired()], format='%Y:%m:%d:%H:%M:%S')
-    time_end = DateTimeField('End Time', [validators.Length(max=255), validators.InputRequired()], format='%Y:%m:%d:%H:%M:%S')
-    street = StringField('Street', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    city = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    state = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    zip = IntegerField('Name', [validators.Length(max=20), validators.InputRequired(), noWhiteSpace()])
-    # address = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    eventNameInput = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    eventHostInput = StringField('Host', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+        # eventThemeInput = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
+    eventDescriptionInput = StringField('Description', [validators.Length(max=255), noWhiteSpace()])
+    eventStartTimeEntry = DateTimeField('Start Time', [validators.InputRequired()], format='%Y-%m-%dT%H:%M')
+    eventEndTimeEntry = DateTimeField('End Time', [validators.InputRequired()], format='%Y-%m-%dT%H:%M')
+    eventAddressInput = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    eventCityInput = StringField('City', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    eventStateInput = StringField('State', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    eventZipInput = IntegerField('Zip', [validators.InputRequired()])
 
 class TestForm(Form):
     name = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    address = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
+    address = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])  
