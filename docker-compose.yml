@@ -21,6 +21,7 @@ services:
       - app
     volumes:
       - ./frontend:/usr/local/src/john/
+      - ./certs-data/:/data/letsencrypt/
   app:
     build:
       context: ./python
