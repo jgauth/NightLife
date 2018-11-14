@@ -89,6 +89,41 @@ function initMap() {
       ]
     });
 
+    //dict with locations/events
+    var eventdict = {{g.event_dict|tojson}};
+
+    //loop that adds markers and info windows that appear upon click for each
+        for (var i in eventtdict){
+          //eventdict is a list of dicts, currentdict represents the current dict in the list so a marker can be set
+          var currentdict = eventdict[i];
+          //get relevant values for the marker
+          var name = currentdict["name"]
+          var description = currentdict["description"]
+          
+          var lat = currentdict["lat"];
+          var long = currentdict["long"];
+          var address = currentdict["address"]
+          
+          console.log(lat, long);
+          //creates new marker for this event
+          var marker = new google.maps.Marker({
+            //position: poss,
+            map: map,
+            info: description
+            
+          });
+          //makes infowindow appear upon click for any marker
+          marker.addListener('click', function() {
+            infowindow.setContent(this.info);
+            infowindow.open(map, this);
+            
+          });
+        }
+
+
+
+
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
