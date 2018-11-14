@@ -73,32 +73,38 @@ def get_all():
 @app.route("/api/event/create", methods=['POST','PUT'])
 def create_event():
 
-    form = TestForm(request.form)
+    form = NewEventForm(request.form)
 
-    eprint("method: " + request.method)
     if request.method == 'POST' or request.method == 'PUT':
-        # eprint(request.form)
-        street = request.form['street']
-        city = request.form['city']
-        state = request.form['state']
-        zip = request.form['zip']
 
-        address = "{}, {}, {} {}".format(street, city, state, zip)
-        eprint(address)
-        geo_tuple = geocode(address)
-        eprint(geo_tuple)
-        if form.validate(): # WTForm validation, needs to be set up properly in forms.py`
+        eprint("Request.form: ")
+        eprint(request.form)
+
+        # name = request.form['name']
+        # host = request.form['host']
+        # theme = request.form['theme']
+        # description = request.form['description']
+        # time_start = request.form['time_start']
+        # time_end = request.form['time_end']
+        # street = request.form['street']
+        # city = request.form['city']
+        # state = request.form['state']
+        # zip = request.form['zip']
+
+        # address = "{}, {}, {} {}".format(street, city, state, zip)
+        # eprint("POST address: " + address)
+        # geo_tuple = geocode(address)
+        # eprint(geo_tuple)
+
+        if form.validate(): # WTForm validation
             
-            # eprint(request.form['address'])
+            eprint("Form successfully validated")
 
             #handle db here
             ############# ffffffffinish this
-            name = request.form['name']
-            address = request.form['address']
-            loc_data = geocode(address)
-            lat = loc_data[0]
-            lng = loc_data[1]
-            new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address)
+            # lat = geo_tuple[0]
+            # lng = geo_tuple[1]
+            # new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address)
 
             # db.session.add(new_event)
             # db.session.commit()
