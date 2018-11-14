@@ -20,6 +20,7 @@ services:
     links:
       - app
     volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
       - ./frontend:/usr/local/src/john/
       - ./certs-data/:/data/letsencrypt/
   app:
