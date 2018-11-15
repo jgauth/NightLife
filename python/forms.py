@@ -25,7 +25,7 @@ def startsWithLetter():
 class NewEventForm(Form):  # YYYY:MM:DD:HH:MM:SS #  %Y:%m:%d:%H:%M:%S
     eventNameInput = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
     eventHostInput = StringField('Host', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-        # eventThemeInput = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
+    eventThemeInput = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
     eventDescriptionInput = StringField('Description', [validators.Length(max=255), noWhiteSpace()])
     eventStartTimeEntry = DateTimeField('Start Time', [validators.InputRequired()], format='%Y-%m-%dT%H:%M')
     eventEndTimeEntry = DateTimeField('End Time', [validators.InputRequired()], format='%Y-%m-%dT%H:%M')
