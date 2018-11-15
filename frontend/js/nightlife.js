@@ -90,29 +90,37 @@ function initMap() {
     });
 
     //dict with locations/events
-    var eventdict = {{g.event_dict|tojson}};
+    //var eventdict = {{g.event_dict|tojson}};
+
+
+    // /api/event_all
+    // javascript to get 
+
+    //this is where I'm trying to get the js list
+    $.getJSON('./api/event/all', events, success);
+    var event_list = JSON.parse(events);
 
     //loop that adds markers and info windows that appear upon click for each
-        for (var i in eventtdict){
-          //eventdict is a list of dicts, currentdict represents the current dict in the list so a marker can be set
-          var currentdict = eventdict[i];
+        for (var i in event_list){
+          //event_list is a list of events, currentdict represents the current event in the list so a marker can be set
+          var current_event = event_list[i];
           //get relevant values for the marker
-          var name = currentdict["name"]
-          var description = currentdict["description"]
+          var name = current_event["name"]
+          var description = current_event["description"]
           
-          var lat = currentdict["lat"];
-          var long = currentdict["long"];
-          var address = currentdict["address"]
+          var lat = current_event["lat"];
+          var long = current_event["long"];
+          var address = current_event["address"]
           
           console.log(lat, long);
           //creates new marker for this event
           var marker = new google.maps.Marker({
-            //position: poss,
+            position: {lat, long};
             map: map,
             info: description
             
           });
-          //makes infowindow appear upon click for any marker
+          //makes infowindow appear upon click for each marker
           marker.addListener('click', function() {
             infowindow.setContent(this.info);
             infowindow.open(map, this);
