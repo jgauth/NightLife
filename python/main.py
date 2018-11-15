@@ -89,7 +89,7 @@ def create_event():
 
             name = form.eventNameInput.data
             host = form.eventHostInput.data
-            # theme = form.data.eventThemeInput
+            theme = form.eventThemeInput.data
             description = form.eventDescriptionInput.data
             time_start = form.eventStartTimeEntry.data
             time_end = form.eventEndTimeEntry.data
@@ -107,7 +107,7 @@ def create_event():
             #handle db here
             lat = geo_tuple[0]
             lng = geo_tuple[1]
-            new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address, host=host, description=description, time_start=time_start, time_end=time_end)
+            new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
 
             db.session.add(new_event)
             db.session.commit()

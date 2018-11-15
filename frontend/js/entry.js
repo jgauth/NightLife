@@ -3,10 +3,18 @@ let hosts = ["Alpha Epsilon Pi", "Alpha Sigma Phi", "Alpha Tau Omega", "Chi Psi"
 "Pi Kappa Alpha", "Pi Kappa Phi", "Sigma Alpha Epsilon", "Sigma Alpha Mu", "Sigma Chi", "Sigma Nu",
 "Sigma Phi Epsilon", "Theta Chi"];
 
+let themes = ["Toga", "Halloween", "Date Dash", "Formal"
+];
+
 $(document).ready(function(){
     $('input#eventHostInput').autocomplete({
         source: hosts
     });
+
+    $('input#eventThemeInput').autocomplete({
+        source: themes
+    });
+
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
