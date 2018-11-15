@@ -1,3 +1,8 @@
+let iconBase = '../images/icons/';
+let baseIcon = '../images/icons/party.png'
+let themes = new Set(["Toga", "Halloween", "Date Dash", "Formal"]);
+
+
 function initMap() {
   var eug = {lat: 44.0520691, lng: -123.0867536};
 
@@ -125,16 +130,17 @@ function initMap() {
     error: function(data) {
       console.log(data['events'])
     }
-  }); 
+  });
+
   function placepins(events) {
-    var i;
+    var partyInfoWindow = new google.maps.InfoWindow, contentInfo = [], marker, i;
     for (i=0; i<events.length; i++){
       event = events[i]
 
       let startTime = new Date(event.time_start).toLocaleString()
       let endTime = new Date(event.time_end).toLocaleString()
 
-      var contentString = '<div class="partyMarker">'
+      contentInfo[i] = '<div class="partyMarker">'
       +'<h3 class="partyMarkerHeading">'+String(event.name)+'</h3>'
       +'<b>Host: </b>'+String(event.host)+'<br />'
       +'<b>Theme: </b>'+String(event.theme)+'<br />'
@@ -143,23 +149,33 @@ function initMap() {
       +'<p>'+String(event.description)+'</p>'
       +'</div>';
 
-      var marker = new google.maps.Marker({
+      if (themes.has(event.theme)) {
+        eventIcon = iconBase + event.theme.replace(' ','-') + '.png';
+      } else {
+        console.log(typeof(event.theme))
+        console.log(themes)
+        console.log(event.theme,"NOT IN SET")
+        eventIcon = baseIcon;
+      }
+
+      marker = new google.maps.Marker({
         position: {lat: event.lat, lng: event.lng},
         map: map,
         title: event.name,
+        icon: eventIcon,
         animation: google.maps.Animation.DROP,
       });
-
-      var window = new google.maps.InfoWindow({
-        content: contentString
-      });
-
-      marker.addListener('click', function() {
-        window.open(map, this);
-      });
-      }
+    
+      // Allow each marker to have an info window    
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+              partyInfoWindow.setContent(contentInfo[i]);
+              partyInfoWindow.open(map, marker);
+          }
+      })(marker, i));
     }
-  };
+  }
+};
 
 $(document).ready(function(){
   $(initMap);
