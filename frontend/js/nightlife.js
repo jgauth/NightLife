@@ -158,12 +158,12 @@ function initMap() {
           console.log(lat, long);
           //creates new marker for this event
           var marker = new google.maps.Marker({
-            position: {lat, long},
+            position: {lat: lat, lng: long},
             map: map,
             info: description,
             title: name,
             //testing different marker appearance, in this case what google calls a "bar" marker, might be relevant for this project
-            icon: iconBase + 'bars.png',
+            //icon: iconBase + 'bars.png',
             //drop animation
             animation: google.maps.Animation.DROP
             
