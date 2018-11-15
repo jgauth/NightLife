@@ -131,17 +131,30 @@ function initMap() {
     for (i=0; i<events.length; i++){
       event = events[i]
 
+      let startTime = new Date(event.time_start).toLocaleString()
+      let endTime = new Date(event.time_end).toLocaleString()
+
+      var contentString = '<div class="partyMarker">'
+      +'<h3 class="partyMarkerHeading">'+String(event.name)+'</h3>'
+      +'<b>Host: </b>'+String(event.host)+'<br />'
+      +'<b>Theme: </b>'+String(event.theme)+'<br />'
+      +'<b>Start: </b>'+startTime+'<br />'
+      +'<b>End: </b>'+endTime+'<br /><br />'
+      +'<p>'+String(event.description)+'</p>'
+      +'</div>';
+
       var marker = new google.maps.Marker({
         position: {lat: event.lat, lng: event.lng},
         map: map,
-        info: event.description,
         title: event.name,
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
       });
 
-      var window = new google.maps.InfoWindow;
+      var window = new google.maps.InfoWindow({
+        content: contentString
+      });
+
       marker.addListener('click', function() {
-        window.setContent(this.info);
         window.open(map, this);
       });
       }
