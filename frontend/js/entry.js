@@ -7,4 +7,15 @@ $(document).ready(function(){
     $('input#eventHostInput').autocomplete({
         source: hosts
     });
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var hour = now.getHours()
+    var minute = now.getMinutes()
+    var second = now.getSeconds()
+    var today = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour)+":"+(minute)+":"+(second);
+    var today2 = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour+2)+":"+(minute)+":"+(second);
+    
+    $('input#eventStartTimeEntry').val(today)
+    $('input#eventEndTimeEntry').val(today2)
 });
