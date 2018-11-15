@@ -149,11 +149,11 @@ function initMap() {
           var current_event = event_list[i];
           //get relevant values for the marker
           var name = current_event["name"]
-          var description = current_event["description"]
+          var description = current_event["description"];
           
           var lat = current_event["lat"];
           var long = current_event["long"];
-          var address = current_event["address"]
+          var address = current_event["address"];
           
           console.log(lat, long);
           //creates new marker for this event
