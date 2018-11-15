@@ -158,7 +158,7 @@ function initMap() {
           console.log(lat, long);
           //creates new marker for this event
           var marker = new google.maps.Marker({
-            position: {lat, long};
+            position: {lat, long},
             map: map,
             info: description,
             title: name,
