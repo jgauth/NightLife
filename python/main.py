@@ -132,3 +132,29 @@ def add_rating():
     response = jsonify({ 'message': 'rating upload success' })
     response.status_code = 200
     return response
+
+@app.route("/api/event/resources", methods=['POST','PUT'])
+def resources():
+
+    form = NewEventForm(request.form)
+
+    if request.method == 'POST' or request.method == 'PUT':
+
+        if form.validate(): # WTForm validation
+
+            eprint("Form successfully validated")
+
+    return
+
+@app.route("/api/event/faq", methods=['POST','PUT'])
+def faq():
+
+    form = NewEventForm(request.form)
+
+    if request.method == 'POST' or request.method == 'PUT':
+
+        if form.validate(): # WTForm validation
+
+            eprint("Form successfully validated")
+
+    return
