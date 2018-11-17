@@ -114,6 +114,7 @@ def create_event():
 
             response = jsonify({ 'message': 'validation/upload success' })
             response.status_code = 200
+            return redirect('/')
         else:
             eprint(form.errors)
             response = jsonify({'validation failed': form.errors})
