@@ -106,3 +106,16 @@ label {
     position: absolute;
     width: 1px;
   }
+
+
+div#partyMarker{
+    color: #FF0000;
+}
+
+.partyMarker{
+    background-color: #FF0000;
+}
+
+.partyMarkerHeading{
+    background-color: #FF0000;
+}
