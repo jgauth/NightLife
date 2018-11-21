@@ -107,15 +107,30 @@ label {
     width: 1px;
   }
 
+/*The following is all for trying to get info window styling to work*/
+
+/*This is what worked when inspecting element in the chrome console, obviously not a sustainable solution*/
+.gm-style-iw{
+    color: #FF0000;
+    background-color: #FF0000;
+}
+
 
 div#partyMarker{
     color: #FF0000;
+    background-color: #FF0000;
+}
+div#partyMarkerHeading{
+    color: #FF0000;
+    background-color: #FF0000;
 }
 
 .partyMarker{
+    color: #FF0000;
     background-color: #FF0000;
 }
 
 .partyMarkerHeading{
+    color: #FF0000;
     background-color: #FF0000;
 }
