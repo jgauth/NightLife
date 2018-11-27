@@ -147,6 +147,11 @@ function initMap() {
       +'<b>Start: </b>'+startTime+'<br />'
       +'<b>End: </b>'+endTime+'<br /><br />'
       +'<p>'+String(event.description)+'</p>'
+      +'<form action="/api/event/add_rating" method="POST">'
+      +'<p><b>Rate: </b><input id="partyRatingSlider" name="partyRatingSlider" type="range" min="1" max="5" value="5" class="slider">&nbsp;<span id="partyRatingSliderLabel">5</span></p>'
+      +'<input type="hidden" name="eventId" value="'+event.id+'">'
+      +'<button type="submit" class="btn btn-primary btn-sm">Submit Rating</button>'
+      +'</form>'
       +'</div>';
 
       if (themes.has(event.theme)) {
@@ -173,6 +178,12 @@ function initMap() {
               partyInfoWindow.open(map, marker);
           }
       })(marker, i));
+
+      google.maps.event.addListener(partyInfoWindow, 'domready', function() {
+        $('#partyRatingSlider').on('input', function(){
+          $('#partyRatingSliderLabel').text($(this).val());
+        });
+      });
     }
   }
 };

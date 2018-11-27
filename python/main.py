@@ -121,15 +121,17 @@ def create_event():
             response.status_code = 400
         return response
 
-@app.route("/api/event/add_rating", methods=['GET'])
+@app.route("/api/event/add_rating", methods=['POST'])
 def add_rating():
-    id = request.args.get('id')
-    rating = request.args.get('rating')
 
-    r1 = Review(party_id=id, rating=rating)
+    rating = request.form['partyRatingSlider']
+    eventId = request.form['eventId']
+
+    r1 = Review(party_id=eventId, rating=rating)
     db.session.add(r1)
     db.session.commit()
 
     response = jsonify({ 'message': 'rating upload success' })
     response.status_code = 200
+
     return response
