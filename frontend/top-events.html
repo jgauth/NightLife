@@ -20,13 +20,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/create_event.html">Create an Event</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="/top-events.html">Top Events</a>
             </li>
             <li class="nav-item">
@@ -44,7 +44,7 @@
       <hr>
 
       <table class="table table-hover">
-        <thead>
+        <thead class="thead-dark">
           <th>Average Rating</th>
           <th>Name</th>
           <th>Theme</th>
@@ -66,13 +66,29 @@
 
     <script>
       $.ajax({
-        url: '/api/event/all/ratings',
+        url: '/api/event/all',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
           events = data['events']
-          for (event in events){
+          console.log(events)
+          for (var i=0; i<events.length; i++){
+            event = events[i];
+            if (event.rating == 0) {
+              rating = 'No Ratings';
+            } else {
+              rating = event.rating;
+            }
             
+            row = '<tr>'
+                + '<td>'+rating+'</td>'
+                + '<td>'+event.name+'</td>'
+                + '<td>'+event.theme+'</td>'
+                + '<td>'+event.description+'</td>'
+                + '<td>'+new Date(event.time_start).toLocaleString()+'-'+new Date(event.time_end).toLocaleString()+'</td>'
+                + '</tr>';
+            
+            $('tbody#partyReviews').append(row);
           }
 
         },

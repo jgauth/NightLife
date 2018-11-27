@@ -71,7 +71,7 @@ def get_all():
     for row in all_events:
         event_dict = event_to_dict(row)
 
-        if get_rating(row.id) == None: event_dict['rating'] = 3
+        if get_rating(row.id) == None: event_dict['rating'] = 0
         else: event_dict['rating'] = get_rating(row.id)
 
         json_list.append(event_dict)
