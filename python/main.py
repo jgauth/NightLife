@@ -1,4 +1,4 @@
-import json, os
+import json, os, operator
 from utils import *
 from flask import Flask, request, redirect, url_for, flash, abort, jsonify
 from models import db, Event, Review
@@ -70,10 +70,17 @@ def get_all():
     json_list = []
     for row in all_events:
         event_dict = event_to_dict(row)
-        event_dict['rating'] = get_rating(row.id)
+
+        if get_rating(row.id) == None: event_dict['rating'] = 3
+        else: event_dict['rating'] = get_rating(row.id)
+
         json_list.append(event_dict)
+
+    json_list.sort(key=operator.itemgetter('rating'), reverse=True)
+
     response = jsonify({'events':json_list})
     response.status_code = 200
+
     return response
 
 @app.route("/api/event/create", methods=['POST','PUT'])
