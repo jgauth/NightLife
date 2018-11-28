@@ -140,12 +140,12 @@ function initMap() {
       let startTime = new Date(event.time_start).toLocaleString()
       let endTime = new Date(event.time_end).toLocaleString()
 
-      contentInfo[i] = '<div class="partyMarker">'
+      contentInfo[i] = '<div class="partyMarker" style="background-color:SteelBlue">'
       +'<h3 class="partyMarkerHeading">'+String(event.name)+'</h3>'
-      +'<b>Host: </b>'+String(event.host)+'<br />'
-      +'<b>Theme: </b>'+String(event.theme)+'<br />'
-      +'<b>Start: </b>'+startTime+'<br />'
-      +'<b>End: </b>'+endTime+'<br /><br />'
+      +'<b style="color:Lime">Host: </b>'+String(event.host)+'<br />'
+      +'<b style="color:Lime">Theme: </b>'+String(event.theme)+'<br />'
+      +'<b style="color:Lime">Start: </b>'+startTime+'<br />'
+      +'<b style="color:Lime">End: </b>'+endTime+'<br /><br />'
       +'<p>'+String(event.description)+'</p>'
       +'<form action="/api/event/add_rating" method="POST">'
       +'<p><b>Rate: </b><input id="partyRatingSlider" name="partyRatingSlider" type="range" min="1" max="5" value="5" class="slider">&nbsp;<span id="partyRatingSliderLabel">5</span></p>'
