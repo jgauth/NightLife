@@ -140,15 +140,15 @@ function initMap() {
       let startTime = new Date(event.time_start).toLocaleString()
       let endTime = new Date(event.time_end).toLocaleString()
 
-      contentInfo[i] = '<div class="partyMarker" style="background-color:SteelBlue">'
+      contentInfo[i] = '<div class="partyMarker" style="background-color:#0B0C10">'
       +'<h3 class="partyMarkerHeading">'+String(event.name)+'</h3>'
-      +'<b style="color:Lime">Host: </b>'+String(event.host)+'<br />'
-      +'<b style="color:Lime">Theme: </b>'+String(event.theme)+'<br />'
-      +'<b style="color:Lime">Start: </b>'+startTime+'<br />'
-      +'<b style="color:Lime">End: </b>'+endTime+'<br /><br />'
+      +'<b style="color:#66FCF1">Host: </b>'+String(event.host)+'<br />'
+      +'<b style="color:#66FCF1">Theme: </b>'+String(event.theme)+'<br />'
+      +'<b style="color:#66FCF1">Start: </b>'+startTime+'<br />'
+      +'<b style="color:#66FCF1">End: </b>'+endTime+'<br /><br />'
       +'<p>'+String(event.description)+'</p>'
       +'<form action="/api/event/add_rating" method="POST">'
-      +'<p><b>Rate: </b><input id="partyRatingSlider" name="partyRatingSlider" type="range" min="1" max="5" value="5" class="slider">&nbsp;<span id="partyRatingSliderLabel">5</span></p>'
+      +'<p style="color:#66FCF1"><b>Rate: </b><input id="partyRatingSlider" name="partyRatingSlider" type="range" min="1" max="5" value="5" class="slider">&nbsp;<span id="partyRatingSliderLabel">5</span></p>'
       +'<input type="hidden" name="eventId" value="'+event.id+'">'
       +'<button type="submit" class="btn btn-primary btn-sm">Submit Rating</button>'
       +'</form>'
