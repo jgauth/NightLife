@@ -37,7 +37,7 @@ def geocode(address):
         pass
 
 def generate_test_events(n):
-    """Generate a list of length n of Event objects"""
+    """Generate a list of length n of Event objects in the Eugene area as a whole. Use generate_campus_test_events for generating events within UO campus limits exclusively."""
     letters = "ABCDEF"
     event_list = []
     for i in range(n):
@@ -56,6 +56,28 @@ def generate_test_events(n):
         e = Event(name=name, geo=geo, lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
         event_list.append(e)
     return event_list
+
+def generate_campus_test_events(n):
+    """Generates a list of length n of Event objects in the UO campus area"""
+    letters = "ABCDEF"
+    event_list = []
+    for i in range(n):
+        name = "Event #{}".format(i)
+        host = "Host #{}".format(i)
+        theme = letters[i % 6]
+        lat = uniform(44.049767, 44.039834)
+        lng = uniform(-123.083650, -123.064724)
+        geo = 'POINT({} {})'.format(lat, lng)
+        address = "Test 123 Lane, Eugene OR 99999"
+        description = "Test description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"
+        # time_start = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
+        # time_end = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
+        time_start = datetime.now()
+        time_end = datetime.now()
+        e = Event(name=name, geo=geo, lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
+        event_list.append(e)
+    return event_list
+
 
 def event_to_dict(e):
     item = {}
