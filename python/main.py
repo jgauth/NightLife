@@ -49,6 +49,16 @@ def gen_events(n):
     response.status_code = 200
     return response
 
+@app.route("/api/event/gen_campus_events/<int:n>", methods=['GET'])
+def gen_campus_events(n):
+    event_list = generate_campus_test_events(n)
+    for e in event_list:
+        db.session.add(e)
+    db.session.commit()
+    response = jsonify({ 'message': 'success' })
+    response.status_code = 200
+    return response
+
 @app.route("/api/event/<int:id>", methods=['GET'])
 def get_event(id):
     event = Event.query.get(id)
