@@ -25,10 +25,18 @@ def get_rating(party_id):
 
 @app.route("/api/healthcheck", methods=['GET'])
 def healthcheck():
+    """Simple endpoint to test Flask server is running"""
     return jsonify({ 'data': 'sup' })
+
+
 
 @app.route("/api/reset_db", methods=['GET'])
 def reset_db():
+    """
+    Endpoint to reset the database for testing
+
+    Deletes all tables and remakes them
+    """
     try:
         db.drop_all()
         db.create_all()
@@ -39,8 +47,13 @@ def reset_db():
         response.status_code = 400
     return response
 
+
+
 @app.route("/api/event/gen_events/<int:n>", methods=['GET'])
 def gen_events(n):
+    """
+    Generate n test events and add them to the database
+    """
     event_list = generate_test_events(n)
     for e in event_list:
         db.session.add(e)
@@ -51,6 +64,9 @@ def gen_events(n):
 
 @app.route("/api/event/<int:id>", methods=['GET'])
 def get_event(id):
+    """
+    Get event with id=id from the database and return JSON of it
+    """
     event = Event.query.get(id)
     if event is None:
         response = jsonify({'message': 'invalid event ID'})
@@ -66,6 +82,9 @@ def get_event(id):
 
 @app.route("/api/event/all", methods=['GET'])
 def get_all():
+    """
+    Get all events from the database and return them as a JSON list
+    """
     all_events = Event.query.all()
     json_list = []
     for row in all_events:
@@ -85,6 +104,9 @@ def get_all():
 
 @app.route("/api/event/create", methods=['POST','PUT'])
 def create_event():
+    """
+    Endpoint to create a new event. Uses WTForms to validate
+    """
 
     form = NewEventForm(request.form)
 
