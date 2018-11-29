@@ -8,4 +8,10 @@ RUN the following for online testing on EC2:
 
 mkdir data
 chmod +x online_build.sh
-./online_build.sh
+./online_build_test.sh
+
+RUN the following for deploying the application on EC2:
+
+mkdir data
+chmod +x online_build_run.sh
+./online_build_run.sh
