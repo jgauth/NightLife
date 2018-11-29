@@ -69,7 +69,7 @@ def generate_campus_test_events(n):
         lng = uniform(-123.083650, -123.064724)
         geo = 'POINT({} {})'.format(lat, lng)
         address = "Test 123 Lane, Eugene OR 99999"
-        description = "Test description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"
+        description = "Beer dude weed frat Bud Light kegstand babes toga lit Juul sesh party bro"
         # time_start = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
         # time_end = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
         time_start = datetime.now()
