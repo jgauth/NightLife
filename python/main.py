@@ -1,34 +1,68 @@
+'''
+main.py
+
+Core Flask logic for the Nightlife application
+'''
+
+# Python libraries (note: these dependencies are handled through Docker, your local machine may not have these.)
 import json, os, operator
 from utils import *
 from flask import Flask, request, redirect, url_for, flash, abort, jsonify
 from models import db, Event, Review
-from forms import NewEventForm, TestForm
-# from flask_migrate import Migrate
+from forms import NewEventForm
 
+# Establish flask application on startup
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://john:johnpassword@localhost/john' # Uses localhost (cli works, app doesn't)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://john:johnpassword@db/john' # Uses docker container alias (cli doens't work, app does)
+# SQLAlchemy configurations and cookie protocol
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://john:johnpassword@172.17.0.1:5432/john' # Uses docker bridge ip (cli and app work)
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024
 app.secret_key = b'\xc48\xd3!w\xf8U\x06\xc9([\xac\xd9\xfe\xbaj'
 
+# Establish database at run time
 db.app = app
 db.init_app(app)
 
 def get_rating(party_id):
+    '''
+    Helper function used to get the average rating from the Rating model given a party id.
+
+    Input:
+        party_id: int, id of event
+    Returns:
+        rating: float
+    '''
     result = db.session.query(db.func.avg(Review.rating).label('average')).filter(Review.party_id==party_id)
     return result[0][0]
 
 
 @app.route("/api/healthcheck", methods=['GET'])
 def healthcheck():
-    return jsonify({ 'data': 'sup' })
+    '''
+    API endpoint to check system health. 
+    NOT used by end-users, for developer access only.
+
+    Input:
+        N/A, Endpoint decorator
+    Returns:
+        Flask response object (JSON load)
+    '''
+    return jsonify({ 'data': 'System is up and running' })
 
 @app.route("/api/reset_db", methods=['GET'])
 def reset_db():
+    '''
+    API endpoint to reset database tables (equivalent to an SQL drop/create or truncate)
+    NOT used by end-users, for developer access only.
+
+    Input:
+        N/A, Endpoint decorator
+    Effects:
+        Resets database
+    Returns:
+        Flask response object (JSON load), HTTP response code
+    '''
     try:
         db.drop_all()
         db.create_all()
@@ -41,6 +75,17 @@ def reset_db():
 
 @app.route("/api/event/gen_events/<int:n>", methods=['GET'])
 def gen_events(n):
+    '''
+    API endpoint used to generate test-events in the run-time system. Generates "fake" events with random information.
+    NOT used by end-users, for developer access only.
+
+    Input:
+        n: int, number of test events to generate
+    Effects:
+        Generates database entries
+    Returns:
+        Flask response object (JSON load), HTTP response code
+    '''
     event_list = generate_test_events(n)
     for e in event_list:
         db.session.add(e)
@@ -51,6 +96,15 @@ def gen_events(n):
 
 @app.route("/api/event/<int:id>", methods=['GET'])
 def get_event(id):
+    '''
+    API endpoint used to get JSON data about a single event given its ID.
+    Depreciated, soley developer use. NOT for end-users.
+
+    Input:
+        id: int, event id
+    Returns:
+        Flask response object (JSON load), HTTP response code
+    '''
     event = Event.query.get(id)
     if event is None:
         response = jsonify({'message': 'invalid event ID'})
@@ -66,17 +120,26 @@ def get_event(id):
 
 @app.route("/api/event/all", methods=['GET'])
 def get_all():
+    '''
+    API endpoint used by view.html and top-parties.html to get event JSON data.
+    Creates JSON dict of all events, and their average ratings. This payload is then returned to the front-end through an AJAX call.
+
+    Input:
+        id: int, event id
+    Returns:
+        Flask response object (JSON load), HTTP response code
+    '''
     all_events = Event.query.all()
     json_list = []
     for row in all_events:
         event_dict = event_to_dict(row)
 
-        if get_rating(row.id) == None: event_dict['rating'] = 0
+        if get_rating(row.id) == None: event_dict['rating'] = 0 # Sentinel value, if the event has no ratings, we give it an average rating of 0, which displays a value of "no ratings" on the front-end
         else: event_dict['rating'] = get_rating(row.id)
 
         json_list.append(event_dict)
 
-    json_list.sort(key=operator.itemgetter('rating'), reverse=True)
+    json_list.sort(key=operator.itemgetter('rating'), reverse=True) # Sort JSON dict by the average event rating
 
     response = jsonify({'events':json_list})
     response.status_code = 200
@@ -85,8 +148,22 @@ def get_all():
 
 @app.route("/api/event/create", methods=['POST','PUT'])
 def create_event():
+    '''
+    API Endpoint to create an event for a host. Sent via POST request.
+    Uses WTForm validation to validate event data.
+
+    Input:
+        N/A, Endpoint decorator
+    Effects:
+        Inserts Event row (upon success)
+    Returns:
+        - Page redirection [upon success]
+        - Flask response object (JSON load), HTTP response code [upon failure]
+    '''
 
     form = NewEventForm(request.form)
+
+    # Form submission from the user
 
     if request.method == 'POST' or request.method == 'PUT':
 
@@ -103,18 +180,21 @@ def create_event():
             street = form.eventAddressInput.data
             city = form.eventCityInput.data
             state = form.eventStateInput.data
-            zip = form.eventZipInput.data
+            zipcode = form.eventZipInput.data
             
-            address = "{}, {}, {} {}".format(street, city, state, zip)
+            address = "{}, {}, {} {}".format(street, city, state, zipcode)
             eprint("POST address: " + address)
-            geo_tuple = geocode(address)
+            geo_tuple = geocode(address)  # GMS Geocoding using the form address
             eprint(geo_tuple)
             
 
-            #handle db here
+            # Creating a geometric point which can be displayed on google maps
             lat = geo_tuple[0]
             lng = geo_tuple[1]
             new_event = Event(name=name, geo='POINT({} {})'.format(lat, lng), lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
+
+
+            # Inserting event into the database
 
             db.session.add(new_event)
             db.session.commit()
@@ -122,6 +202,10 @@ def create_event():
             response = jsonify({ 'message': 'validation/upload success' })
             response.status_code = 200
             return redirect('/')
+        
+        
+        # Form validation failure, return JSON response
+
         else:
             eprint(form.errors)
             response = jsonify({'validation failed': form.errors})
@@ -130,6 +214,17 @@ def create_event():
 
 @app.route("/api/event/add_rating", methods=['POST'])
 def add_rating():
+    '''
+    API endpoint to add a rating from user input on the view.html page
+    This is accessed when a user clicks "submit rating" after selecting the range slider on a party infowindow.
+
+    Input:
+        N/A, Endpoint decorator
+    Effects:
+        Inserts rating row
+    Returns:
+        HTML redirect
+    '''
 
     rating = request.form['partyRatingSlider']
     eventId = request.form['eventId']
@@ -138,7 +233,4 @@ def add_rating():
     db.session.add(r1)
     db.session.commit()
 
-    response = jsonify({ 'message': 'rating upload success' })
-    response.status_code = 200
-
-    return response
+    return redirect('index.html')

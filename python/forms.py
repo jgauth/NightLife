@@ -1,10 +1,30 @@
+'''
+forms.py
+
+Validate event forms using WTForm validation.
+'''
+
 from wtforms import Form, DateTimeField, IntegerField, StringField, validators
 
-# Custom validator checks for inputs containing only whitespace
+
 def noWhiteSpace():
+    '''
+    Validates form fields to check for pure whitespace for database integrity.
+    
+    Input:
+        HTML Form Data
+    Returns:
+        - None [if form validated]
+        - Validation Error [if form invalidated]
+    '''
     message = 'Must have valid characters.'
 
     def _noWhiteSpace(form, field):
+        '''
+        Helper function to check for pure whitespace.
+
+        Raises Validation Error
+        '''
         s = field.data.strip()
         if s == '':
             raise validators.ValidationError(message)
@@ -12,6 +32,13 @@ def noWhiteSpace():
     return _noWhiteSpace
 
 def startsWithLetter():
+    '''
+    Input:
+        HTML Form Data
+    Returns:
+        - None [if form validated]
+        - Validation Error [if form invalidated]
+    '''
     message = 'Must start with a letter.'
 
     def _startsWithLetter(form, field):
@@ -22,7 +49,15 @@ def startsWithLetter():
     return _startsWithLetter
 
 
-class NewEventForm(Form):  # YYYY:MM:DD:HH:MM:SS #  %Y:%m:%d:%H:%M:%S
+class NewEventForm(Form):
+    '''
+    Validates form field input for each of the input fields, using WT validators and custom validators
+
+    Input:
+        HTML Form
+    Effects:
+        Form validation (returns validation error to user-side)
+    '''
     eventNameInput = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
     eventHostInput = StringField('Host', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
     eventThemeInput = StringField('Theme', [validators.Length(max=255), noWhiteSpace()])
@@ -33,7 +68,3 @@ class NewEventForm(Form):  # YYYY:MM:DD:HH:MM:SS #  %Y:%m:%d:%H:%M:%S
     eventCityInput = StringField('City', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
     eventStateInput = StringField('State', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
     eventZipInput = IntegerField('Zip', [validators.InputRequired()])
-
-class TestForm(Form):
-    name = StringField('Name', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])
-    address = StringField('Address', [validators.Length(max=255), validators.InputRequired(), noWhiteSpace()])  

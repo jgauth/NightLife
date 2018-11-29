@@ -3,22 +3,28 @@ from models import Event
 from random import uniform, randint
 from datetime import datetime
 
+
+# Google maps API key
 GMAPS_KEY = "AIzaSyDK0VvGmW9rc1y-oX6APE7Rc3wQnoRUI58"
 
 def eprint(*args, **kwargs):
+    '''
+    Utility for redirecting print IO to console for debugging (bypasses Flask defaults)
+
+    Input/Return: Same as Python print
+    Effects: Output to local console
+    '''
     print(*args, file=sys.stderr, **kwargs)
 
 def geocode(address):
     '''
-    Takes address(string)
-    returns tuple of lat(float), lng(float), formatted_address(string)
-    note: formatted_address will remove apt #s, room #, etc'''
+    Utility to geocode Google Maps address, uses google maps Geocoding API
 
-    # example
-    # https://maps.googleapis.com/maps/api/geocode/json?address=1337+Hilyard+St,+Eugene,+OR+97401&key=AIzaSyDK0VvGmW9rc1y-oX6APE7Rc3wQnoRUI58
-
-    # Format address to be url valid
-    # may need to adjust formatting to properly handle front-end format
+    Input:
+        Address: String
+    Returns:
+        Float, tuple of lat(float), lng(float), formatted_address(string)(this has apartment numbers, house numbers, etc removed)
+    '''
     address = address.replace(' ', '+').replace('.', '')
 
     parameters = {'address':address, 'key':GMAPS_KEY}
@@ -32,12 +38,18 @@ def geocode(address):
         return (lat, lng, formatted_address)
 
     except requests.exceptions.RequestException as e:
-        # requests error
-        # do something
+        eprint("Formatting failure")
         pass
 
 def generate_test_events(n):
-    """Generate a list of length n of Event objects"""
+    '''
+    Helper function called by API endpoint to generate test events
+
+    Input:
+        n: int, the number of events to generate
+    Returns:
+        event_list: a list of Event model objects to place on the map
+    '''
     letters = "ABCDEF"
     event_list = []
     for i in range(n):
@@ -49,8 +61,6 @@ def generate_test_events(n):
         geo = 'POINT({} {})'.format(lat, lng)
         address = "Test 123 Lane, Eugene OR 99999"
         description = "Test description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"
-        # time_start = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
-        # time_end = "2018-{}-{} {}:{}:00".format(randint(1,12), randint(1,28), randint(0, 23), randint(0, 59))
         time_start = datetime.now()
         time_end = datetime.now()
         e = Event(name=name, geo=geo, lat=lat, lng=lng, address=address, host=host, theme=theme, description=description, time_start=time_start, time_end=time_end)
@@ -58,6 +68,15 @@ def generate_test_events(n):
     return event_list
 
 def event_to_dict(e):
+    '''
+    Utility to convert an event to a python dictionary.
+    Used by the /api/event endpoint
+
+    Input:
+        e: Event model object
+    Returns:
+        item: python dictionary representation of event.
+    '''
     item = {}
     item['id'] = e.id
     item['name'] = e.name

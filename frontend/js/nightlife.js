@@ -1,17 +1,27 @@
+/*
+ Primary static JS functionality to control event map
+*/
+
+
+// Google Maps pin icons and themes for events
 let iconBase = '../images/icons/';
 let baseIcon = '../images/icons/party.png'
 let themes = new Set(["Toga", "Halloween", "Date Dash", "Formal"]);
 
 
 function initMap() {
-  var eug = {lat: 44.0520691, lng: -123.0867536};
+  /*
+   Initializes map inside of div element, places pins using JSON data 
+   */
+  var eug = {lat: 44.0520691, lng: -123.0867536}; // Center map on campus 
 
-  var currentLocation = new google.maps.InfoWindow;
+  var currentLocation = new google.maps.InfoWindow; // Access user location
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 15,
     center: eug,
 
+    // Styling the map to dark mode
     styles: [
       {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
       {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -95,6 +105,7 @@ function initMap() {
   });
 
   if (navigator.geolocation) {
+    // Attempts to get user geo location and place a pin on the map with their location, using success and failure handlers
       navigator.geolocation.getCurrentPosition(function(position) {
         var pos = {
           lat: position.coords.latitude,
@@ -109,37 +120,45 @@ function initMap() {
         handleLocationError(true, currentLocation, map.getCenter());
       });
   } else {
-      // Browser doesn't support Geolocation
+      // Browser doesn't support Geolocation, error handler
       handleLocationError(false, currentLocation, map.getCenter());
   }
   function handleLocationError(browserHasGeolocation, currentLocation, pos) {
     currentLocation.setPosition(pos);
-    currentLocation.setContent("Unable to find your currnet location");
+    currentLocation.setContent("Unable to find your current location");
     currentLocation.open(map);
   }
 
   $.ajax({
+    // AJAX call to get all events from application API
     url: '/api/event/all',
     method: 'GET',
     dataType: 'json',
     success: function(data) {
-      console.log(data['events'])
       placepins(data['events'])
 
     },
     error: function(data) {
-      console.log(data['events'])
+      console.log('unable to load events')
     }
   });
 
   function placepins(events) {
-    var partyInfoWindow = new google.maps.InfoWindow, contentInfo = [], marker, i;
+    /*
+     Iterate over JSON dict and place map markers using geo location
+     */
+    var partyInfoWindow = new google.maps.InfoWindow;
+
+    var contentInfo = [], marker, i;
     for (i=0; i<events.length; i++){
       event = events[i]
 
+      // Re-formatting datetime strings
       let startTime = new Date(event.time_start).toLocaleString()
       let endTime = new Date(event.time_end).toLocaleString()
 
+
+      // Creating an info window for each individual event, hashing it with in array
       contentInfo[i] = '<div class="partyMarker">'
       +'<h3 class="partyMarkerHeading">'+String(event.name)+'</h3>'
       +'<b>Host: </b>'+String(event.host)+'<br />'
@@ -154,6 +173,7 @@ function initMap() {
       +'</form>'
       +'</div>';
 
+      // If the user selects a pre-determined theme, use the icon for that theme, else give a generic icon
       if (themes.has(event.theme)) {
         eventIcon = iconBase + event.theme.replace(' ','-') + '.png';
       } else {
@@ -163,6 +183,7 @@ function initMap() {
         eventIcon = baseIcon;
       }
 
+      // Place the maps marker
       marker = new google.maps.Marker({
         position: {lat: event.lat, lng: event.lng},
         map: map,
@@ -171,7 +192,7 @@ function initMap() {
         animation: google.maps.Animation.DROP,
       });
     
-      // Allow each marker to have an info window    
+      // Allow each marker to have an info window, attach a listener    
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
               partyInfoWindow.setContent(contentInfo[i]);
@@ -179,6 +200,7 @@ function initMap() {
           }
       })(marker, i));
 
+      // Attach listener for rating slider
       google.maps.event.addListener(partyInfoWindow, 'domready', function() {
         $('#partyRatingSlider').on('input', function(){
           $('#partyRatingSliderLabel').text($(this).val());
@@ -189,5 +211,6 @@ function initMap() {
 };
 
 $(document).ready(function(){
+  // On DOM-load, load the map.
   $(initMap);
 });
