@@ -13,7 +13,7 @@ $(document).ready(function(){
                 if (event.rating == 0) {
                     rating = 'No Ratings';
                 } else {
-                    rating = event.rating;
+                    rating = event.rating.toFixed(2);
             }
             
             row = '<tr>'
