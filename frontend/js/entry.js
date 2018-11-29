@@ -21,8 +21,8 @@ $(document).ready(function(){
     var hour = now.getHours()
     var minute = now.getMinutes()
     var second = now.getSeconds()
-    var today = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour)+":"+(minute)+":"+(second);
-    var today2 = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour+2)+":"+(minute)+":"+(second);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour)+":"+(minute)+":00";
+    var today2 = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour+2)+":"+(minute)+":00";
     
     $('input#eventStartTimeEntry').val(today)
     $('input#eventEndTimeEntry').val(today2)
