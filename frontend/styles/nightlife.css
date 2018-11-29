@@ -106,3 +106,18 @@ label {
     position: absolute;
     width: 1px;
   }
+
+  .gm-style .gm-style-iw {
+    background-color:#66FCF1 !important;
+    color: #66FCF1;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 120px !important;
+    padding-top: 10px;
+    display: block !important;
+    }    
+
+
+ 
