@@ -4,3 +4,4 @@ flask-migrate
 geoalchemy2
 requests
 WTForms
+pytest
