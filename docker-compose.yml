@@ -17,9 +17,11 @@ services:
       dockerfile: nginx/Dockerfile
     ports:
       - 80:80
+      - 443:443
     links:
       - app
     volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
       - ./frontend:/usr/local/src/john/
   app:
     build:
