@@ -14,16 +14,22 @@ $(document).ready(function(){
     $('input#eventThemeInput').autocomplete({
         source: themes
     });
-
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var hour = now.getHours()
-    var minute = now.getMinutes()
-    var second = now.getSeconds()
-    var today = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour)+":"+(minute)+":00";
-    var today2 = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+(hour+2)+":"+(minute)+":00";
     
-    $('input#eventStartTimeEntry').val(today)
-    $('input#eventEndTimeEntry').val(today2)
+    ten = function(i) {
+        return (i < 10 ? '0' : '') + i;
+    }
+
+    var date = new Date();
+
+    YYYY = date.getFullYear();
+    MM = ten(date.getMonth() + 1);
+    DD = ten(date.getDate());
+    HH = ten(date.getHours());
+    II = ten(date.getMinutes());
+    SS = ten(date.getSeconds());
+
+    now = YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II;
+
+    $('input#eventStartTimeEntry').val(now)
+    $('input#eventEndTimeEntry').val(now)
 });
