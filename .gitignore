@@ -2,3 +2,4 @@ __pycache__/
 py3env/
 .vscode/
 data/
+frontend/js/config.js
