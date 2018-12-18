@@ -211,6 +211,11 @@ function initMap() {
 };
 
 $(document).ready(function(){
-  // On DOM-load, load the map.
+  // On DOM-load, load the api src script and then map.
+
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.src = "https://maps.googleapis.com/maps/api/js?key=" + config.GOOGLE_MAP_KEY + "&callback=initMap";
+  $("body").append(s);
   $(initMap);
 });

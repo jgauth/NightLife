@@ -3,3 +3,4 @@ py3env/
 .vscode/
 data/
 frontend/js/config.js
+variables.env
