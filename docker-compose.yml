@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     image: mdillon/postgis:10
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: john
       POSTGRES_PASSWORD: johnpassword
